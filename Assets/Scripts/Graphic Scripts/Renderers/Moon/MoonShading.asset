@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8ad542918968de4dbde98eebc26af45, type: 3}
+  m_Name: MoonShading
+  m_EditorClassIdentifier: 
+  randomize: 0
+  seed: 0
+  terrainMaterial: {fileID: 2100000, guid: 50cf4367af1821d409c9a796c8d3537c, type: 2}
+  hasAtmosphere: 0
+  atmosphereSettings: {fileID: 0}
+  hasOcean: 0
+  oceanLevel: 0
+  oceanSettings: {fileID: 0}
+  shadingDataCompute: {fileID: 7200000, guid: 1135ca2c9d87dff4c89e713a5948fd5e, type: 3}
+  primaryColA: {r: 1, g: 1, b: 1, a: 1}
+  secondaryColA: {r: 0.7372549, g: 0.7372549, b: 0.7372549, a: 1}
+  primaryColB: {r: 0.18039216, g: 0.18039216, b: 0.18039216, a: 1}
+  secondaryColB: {r: 0, g: 0, b: 0, a: 1}
+  steepCol: {r: 0.058823533, g: 0.04705883, b: 0.08627451, a: 1}
+  numBiomePoints: 72
+  radiusMinMax: {x: 0.001, y: 0.03}
+  biomeWarpNoise:
+    numLayers: 4
+    lacunarity: 2
+    persistence: 0.5
+    scale: 2.12
+    elevation: 0.79
+    verticalShift: 0
+    offset: {x: 0, y: 0, z: 0}
+  detailNoise:
+    numLayers: 4
+    lacunarity: 2.34
+    persistence: 0.54
+    scale: -0.1
+    elevation: 1.43
+    verticalShift: 0
+    offset: {x: 0, y: 0, z: 0}
+  detailWarpNoise:
+    numLayers: 4
+    lacunarity: 2
+    persistence: 0.5
+    scale: 0.11
+    elevation: 13.31
+    verticalShift: 0
+    offset: {x: 0, y: 0, z: 0}
+  candidatePoolSize: 0.225
+  desiredNumCraterRays: 9
+  ejectaRaySeed: 453
+  ejectaRaysScale: 11
+  normalMapsFlat:
+  - {fileID: 2800000, guid: b2b6608a102171c41a3ae3095cdd4b43, type: 3}
+  normalMapsSteep:
+  - {fileID: 2800000, guid: 350e7209e22fc9e4f865331293802527, type: 3}
+  - {fileID: 2800000, guid: 73a5d3c82befcd64c981fd0a11da129e, type: 3}
+  - {fileID: 2800000, guid: 5c481543f79dd694385a1a5513942932, type: 3}
+  - {fileID: 2800000, guid: 68e7eef0ffec9054f80afc179fe9407d, type: 3}

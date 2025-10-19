@@ -1,0 +1,78 @@
+.unity-button {
+    padding-top: 14px;
+    padding-right: 14px;
+    padding-bottom: 14px;
+    padding-left: 14px;
+    align-self: center;
+    align-content: center;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    flex-shrink: 1;
+    align-items: center;
+    justify-content: center;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    margin-top: 2px;
+    margin-right: 2px;
+    margin-bottom: 2px;
+    margin-left: 2px;
+    color: rgb(0, 0, 0);
+}
+
+.unity-text-element {
+    -unity-font-definition: url("project://database/Library/unity%20default%20resources?fileID=10102&guid=0000000000000000e000000000000000&type=0#LegacyRuntime");
+    -unity-text-align: middle-center;
+    -unity-font-style: bold;
+}
+
+.unity-button__image {
+    width: 100%;
+    height: 100%;
+}
+
+.unity-button--with-icon-only {
+    flex-shrink: 0;
+    align-self: stretch;
+}
+
+CustomIconButton {
+    background-color: rgba(255, 255, 255, 0.18);
+}
+
+CustomIconButton.active {
+    color: rgb(255, 255, 255);
+    background-color: rgba(192, 255, 192, 0.5);
+}
+
+CustomIconButton > .unity-button__image {
+    -unity-background-image-tint-color: rgb(0, 0, 0);
+    transition-duration: 0.15s;
+    margin-right: 15px;
+}
+
+CustomIconButton.active > .unity-button__image {
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    margin-right: 15px;
+}
+
+CustomIconButton:hover {
+    transition-duration: 0.2s;
+    color: rgb(255, 255, 255);
+}
+
+CustomIconButton.active:hover {
+    transition-duration: 0.2s;
+    color: rgb(255, 255, 255);
+}
+
+CustomIconButton:hover > .unity-button__image {
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+}
+
+CustomIconButton.active:hover > .unity-button__image {
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+}

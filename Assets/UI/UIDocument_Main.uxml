@@ -1,0 +1,53 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/UIThemeStyleSheet%20-%20Main.uss?fileID=7433441132597879392&amp;guid=47f973703feb0c648a49b73fabfb46e3&amp;type=3#UIThemeStyleSheet - Main" />
+    <ui:VisualElement data-source="project://database/Assets/Scripts/Helpers/ScriptableVariables.asset?fileID=11400000&amp;guid=a7bd7852dd394ad4f8a92698003e5d23&amp;type=2#ScriptableVariables" name="VisualElement" style="flex-grow: 1; margin-top: 0.5%; margin-right: 0.36%; margin-bottom: 0.5%; margin-left: 0.36%; justify-content: space-between; align-items: center;">
+        <ui:VisualElement name="TimeSpeed_Panel" style="align-self: flex-end; flex-direction: column; width: 32%; align-items: center; margin-top: 0; margin-right: 2px; margin-bottom: 0; margin-left: 0;">
+            <ui:VisualElement name="TopTimeSpeed_Panel" style="width: 100%; flex-direction: row;">
+                <CustomIconButton text="1x" fit-mode="FitWidth" icon-image="project://database/Assets/Graphics/Textures/UITextures/Icon_Play.png?fileID=21300000&amp;guid=c0b6d53379d285046a3d5368dedf5b6f&amp;type=3#Icon_Play" name="1xTimeSpeed_Button" use-background-image="true" class="translucent-element active" style="font-size: 30px; width: 100%;">
+                    <Bindings>
+                        <ui:DataBinding property="style.display" data-source-path="isUIMode" binding-mode="ToTarget" source-to-ui-converters="BoolToDisplayStyleEnum" />
+                    </Bindings>
+                </CustomIconButton>
+                <CustomIconButton text="2x" fit-mode="FitWidth" icon-image="project://database/Assets/Graphics/Textures/UITextures/Icon_2xForward.png?fileID=21300000&amp;guid=6d87e77b2e682c04daac10bf0d7aeb33&amp;type=3#Icon_2xForward" name="2xTimeSpeed_Button" use-background-image="true" class="translucent-element" style="font-size: 30px; width: 100%;">
+                    <Bindings>
+                        <ui:DataBinding property="style.display" data-source-path="isUIMode" binding-mode="ToTarget" source-to-ui-converters="BoolToDisplayStyleEnum" />
+                    </Bindings>
+                </CustomIconButton>
+                <CustomIconButton text="5x" fit-mode="FitWidth" icon-image="project://database/Assets/Graphics/Textures/UITextures/Icon_5xForward.png?fileID=21300000&amp;guid=d66088f33990c6941ac20bfec37b440e&amp;type=3#Icon_5xForward" name="5xTimeSpeed_Button" use-background-image="true" class="translucent-element" style="font-size: 30px; width: 100%;">
+                    <Bindings>
+                        <ui:DataBinding property="style.display" data-source-path="isUIMode" binding-mode="ToTarget" source-to-ui-converters="BoolToDisplayStyleEnum" />
+                    </Bindings>
+                </CustomIconButton>
+            </ui:VisualElement>
+            <ui:VisualElement name="BottomTimeSpeed_Panel" style="width: 100%; flex-direction: row;">
+                <CustomIconButton fit-mode="FitWidth" icon-image="project://database/Assets/Graphics/Textures/UITextures/Icon_Minus.png?fileID=21300000&amp;guid=341697b328ea3794293df7fe07ec6109&amp;type=3#Icon_Minus" name="DecreaseCustomTimeSpeed_Button" use-background-image="true" class="translucent-element">
+                    <Bindings>
+                        <ui:DataBinding property="style.display" data-source-path="isUIMode" binding-mode="ToTarget" source-to-ui-converters="BoolToDisplayStyleEnum" />
+                    </Bindings>
+                </CustomIconButton>
+                <CustomIconButton text="10x" fit-mode="FitWidth" icon-image="project://database/Assets/Graphics/Textures/UITextures/Icon_MoreForward.png?fileID=21300000&amp;guid=6bba5cb19ac4d034fb967e41b2801375&amp;type=3#Icon_MoreForward" name="CustomTimeSpeed_Button" use-background-image="true" class="translucent-element" style="font-size: 30px; width: 100%;">
+                    <Bindings>
+                        <ui:DataBinding property="style.display" data-source-path="isUIMode" binding-mode="ToTarget" source-to-ui-converters="BoolToDisplayStyleEnum" />
+                        <ui:DataBinding property="text" data-source-path="customTimeSpeedButtonText" binding-mode="ToTarget" />
+                    </Bindings>
+                </CustomIconButton>
+                <CustomIconButton fit-mode="FitWidth" icon-image="project://database/Assets/Graphics/Textures/UITextures/Icon_Plus.png?fileID=21300000&amp;guid=b62b159ce4015f84088b21785dfefc96&amp;type=3#Icon_Plus" name="IncreaseCustomTimeSpeed_Button" use-background-image="true" class="translucent-element">
+                    <Bindings>
+                        <ui:DataBinding property="style.display" data-source-path="isUIMode" binding-mode="ToTarget" source-to-ui-converters="BoolToDisplayStyleEnum" />
+                    </Bindings>
+                </CustomIconButton>
+            </ui:VisualElement>
+            <Bindings>
+                <ui:DataBinding property="style.width" data-source-path="timeSpeedPanelWidth" binding-mode="ToTarget" />
+                <ui:DataBinding property="style.height" data-source-path="timeSpeedPanelHeight" binding-mode="ToTarget" />
+            </Bindings>
+        </ui:VisualElement>
+        <ui:VisualElement name="UIMode_Panel" class="translucent-element active" style="height: 5%; flex-direction: row; align-self: flex-start; padding-top: 12.5px; padding-right: 12.5px; padding-bottom: 12.5px; padding-left: 12.5px; border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px; margin-top: 2px; margin-right: 2px; margin-bottom: 2px; margin-left: 2px; background-color: rgba(192, 192, 255, 0.5);">
+            <VisualElementFit fit-mode="FitWidth" style="background-image: url(&quot;project://database/Assets/Graphics/Textures/UITextures/Icon_Info.png?fileID=21300000&amp;guid=f2358691cc2b53b409f5a2f5a0845a27&amp;type=3#Icon_Info&quot;); height: 100%; -unity-background-scale-mode: scale-to-fit; margin-right: 7.5px; padding-top: 12.5px; padding-right: 12.5px; padding-bottom: 12.5px; padding-left: 12.5px;" />
+            <ui:TextElement text="UI Mode" style="font-size: 30px; margin-left: 7.5px; color: rgb(255, 255, 255);" />
+            <Bindings>
+                <ui:DataBinding property="style.display" data-source-path="isUIMode" binding-mode="ToTarget" source-to-ui-converters="BoolToDisplayStyleEnum" />
+            </Bindings>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

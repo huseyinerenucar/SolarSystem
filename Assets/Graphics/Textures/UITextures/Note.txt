@@ -1,0 +1,1 @@
+For 256px softening will be %85

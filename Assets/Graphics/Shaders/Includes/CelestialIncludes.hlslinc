@@ -1,0 +1,110 @@
+#ifndef CELESTIAL_INCLUDES_HLSL
+#define CELESTIAL_INCLUDES_HLSL
+
+// Use #define for maximum compatibility across shader compilers
+#define PI 3.14159265359
+#define TAU (PI * 2)
+#define MAX_FLOAT 3.402823466e+38
+
+// Remap a value from one range to another
+float remap(float v, float minOld, float maxOld, float minNew, float maxNew)
+{
+    return saturate(minNew + (v - minOld) * (maxNew - minNew) / (maxOld - minOld));
+}
+
+// Remap a float value (with a known mininum and maximum) to a value between 0 and 1
+float remap01(float v, float minOld, float maxOld)
+{
+    return saturate((v - minOld) / (maxOld - minOld));
+}
+
+float Blend(float startHeight, float blendDst, float height)
+{
+    return smoothstep(startHeight - blendDst / 2, startHeight + blendDst / 2, height);
+}
+
+
+// Triplanar mapping for a standard texture (e.g., Albedo)
+// NOTE: Now takes TEXTURE2D and SAMPLER arguments for URP compatibility.
+float4 triplanar(float3 position, float3 normal, float scale, TEXTURE2D(tex), SAMPLER(sampler_tex)) {
+    // Triplanar UV coordinates
+    float2 uvX = position.zy * scale;
+    float2 uvY = position.xz * scale;
+    float2 uvZ = position.xy * scale;
+
+    // Sample the texture on each axis
+    // NOTE: Uses the SAMPLE_TEXTURE2D macro
+    float4 colX = SAMPLE_TEXTURE2D(tex, sampler_tex, uvX);
+    float4 colY = SAMPLE_TEXTURE2D(tex, sampler_tex, uvY);
+    float4 colZ = SAMPLE_TEXTURE2D(tex, sampler_tex, uvZ);
+    
+    // Blend the samples based on the surface normal
+    float3 blendWeight = pow(abs(normal), 2); // Or just normal*normal
+    blendWeight /= dot(blendWeight, 1); // Normalize weights
+
+    return colX * blendWeight.x + colY * blendWeight.y + colZ * blendWeight.z;
+}
+
+
+// Reoriented Normal Mapping blend function
+// http://blog.selfshadow.com/publications/blending-in-detail/
+float3 blend_rnm(float3 n1, float3 n2)
+{
+    n1.z += 1;
+    n2.xy = -n2.xy;
+    return n1 * dot(n1, n2) / n1.z - n2;
+}
+
+// Triplanar mapping for a normal map.
+// Based on: https://bgolus.medium.com/normal-mapping-for-a-triplanar-shader-10bf39dca05a
+float3 triplanarNormal(float3 position, float3 normal, float scale, TEXTURE2D(normalMap), SAMPLER(sampler_normalMap)) {
+    // Triplanar UV coordinates
+    float2 uvX = position.zy * scale;
+    float2 uvY = position.xz * scale;
+    float2 uvZ = position.xy * scale;
+    
+    // Sample tangent space normal maps
+    // NOTE: Uses SAMPLE_TEXTURE2D_LOD for sampling normals. UnpackNormal is a built-in URP function.
+    float3 tangentNormalX = UnpackNormal(SAMPLE_TEXTURE2D_LOD(normalMap, sampler_normalMap, uvX, 0));
+    float3 tangentNormalY = UnpackNormal(SAMPLE_TEXTURE2D_LOD(normalMap, sampler_normalMap, uvY, 0));
+    float3 tangentNormalZ = UnpackNormal(SAMPLE_TEXTURE2D_LOD(normalMap, sampler_normalMap, uvZ, 0));
+
+    // Reorient normals and blend
+    // Swizzle normals to match tangent space and apply RNM blend
+    float3 absNormal = abs(normal);
+    tangentNormalX = blend_rnm(float3(normal.zy, absNormal.x), tangentNormalX);
+    tangentNormalY = blend_rnm(float3(normal.xz, absNormal.y), tangentNormalY);
+    tangentNormalZ = blend_rnm(float3(normal.xy, absNormal.z), tangentNormalZ);
+
+    // Swizzle tangent normals back to world space
+    // and apply sign of normal to tangent's Z value
+    float3 axisSign = sign(normal);
+    tangentNormalX.z *= axisSign.x;
+    tangentNormalY.z *= axisSign.y;
+    tangentNormalZ.z *= axisSign.z;
+
+    float3 worldNormalX = tangentNormalX.zyx;
+    float3 worldNormalY = tangentNormalY.xzy;
+    float3 worldNormalZ = tangentNormalZ.xyz;
+
+    // Blend the 3 world-space normals based on the original normal
+    float3 blendWeight = pow(abs(normal), 4);
+    blendWeight /= dot(blendWeight, 1);
+
+    return normalize(worldNormalX * blendWeight.x + worldNormalY * blendWeight.y + worldNormalZ * blendWeight.z);
+}
+
+
+// Helper to convert the world-space triplanar normal into the object's tangent space.
+float3 triplanarNormalTangentSpace(float3 position, float3 normal, float scale, float4 tangent, TEXTURE2D(normalMap), SAMPLER(sampler_normalMap))
+{
+    float3 worldNormal = triplanarNormal(position, normal, scale, TEXTURE2D_ARGS(normalMap, sampler_normalMap));
+    
+    float3x3 tbn = CreateTangentToWorld(normal, tangent.xyz, tangent.w);
+    float3x3 worldToTangent = transpose(tbn);
+
+    return mul(worldToTangent, worldNormal);
+}
+
+
+#endif // CELESTIAL_INCLUDES_HLSL
