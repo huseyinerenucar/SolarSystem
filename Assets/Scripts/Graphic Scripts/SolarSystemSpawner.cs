@@ -15,7 +15,7 @@ public class SolarSystemSpawner : MonoBehaviour
 
         foreach (var body in bodies)
         {
-            if (body.bodyType == CelestialBody.BodyType.Sun)
+            if (body.bodyType == CelestialBody.BodyType.Star)
                 continue;
 
             if (body.bodyName == "Earth")

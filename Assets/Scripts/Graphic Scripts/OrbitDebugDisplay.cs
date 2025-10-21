@@ -98,13 +98,13 @@ public class OrbitDebugDisplay : MonoBehaviour
 
     Vector3 CalculateAcceleration(int i, VirtualBody[] virtualBodies)
     {
-        Vector3 acceleration = Vector3.zero;
+        Vector3D acceleration = Vector3D.zero;
         for (int j = 0; j < virtualBodies.Length; j++)
         {
             if (i == j)
                 continue;
 
-            Vector3 forceDir = (virtualBodies[j].position - virtualBodies[i].position).normalized;
+            Vector3D forceDir = (virtualBodies[j].position - virtualBodies[i].position).normalized;
             float sqrDst = (virtualBodies[j].position - virtualBodies[i].position).sqrMagnitude;
             acceleration += StaticVariables.gravitationalConstant * virtualBodies[j].mass * forceDir / sqrDst;
         }
@@ -132,7 +132,7 @@ public class OrbitDebugDisplay : MonoBehaviour
     {
         public Vector3 position;
         public Vector3 velocity;
-        public float mass;
+        public double mass;
 
         public VirtualBody(CelestialBody body)
         {
