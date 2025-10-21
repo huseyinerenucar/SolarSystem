@@ -137,7 +137,7 @@ public class OrbitDebugDisplay : MonoBehaviour
         public VirtualBody(CelestialBody body)
         {
             position = body.transform.position;
-            velocity = body.initialVelocity;
+            velocity = body.initialVelocityVector;
             mass = body.mass;
         }
     }

@@ -1,67 +1,50 @@
 using UnityEngine;
 
-[ExecuteInEditMode]
-[RequireComponent(typeof(Rigidbody))]
 public class CelestialBody : MonoBehaviour
 {
     public enum BodyType { Planet, Moon, Sun }
     public BodyType bodyType;
     public float radius;
     public float surfaceGravity;
-    public Vector3 initialVelocity;
-    public Vector3 initialRotation;
     public string bodyName = "Unnamed";
     readonly Transform meshHolder;
-
-    public Vector3 Velocity { get; private set; }
+    public Vector3 initialVelocityVector;
+    public Vector3 initialRotationVector;
+    public Vector3 accelerationVector;
+    public Vector3 velocityVector { get; private set; }
     public float mass { get; private set; }
     Rigidbody rb;
-
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        Velocity = initialVelocity;
+        velocityVector = initialVelocityVector;
         RecalculateMass();
     }
-
-    public void UpdateVelocity(Vector3 acceleration, float timeStep)
+    public void UpdateVelocity(float timeStep)
     {
-        Velocity += acceleration * timeStep * Time.fixedDeltaTime;
+        velocityVector += Time.fixedDeltaTime * timeStep * accelerationVector;
     }
-
     public void UpdatePosition(float timeStep)
     {
-        rb.MovePosition(rb.position + (Time.fixedDeltaTime * timeStep * Velocity));
-        //if (bodyType.HasFlag(BodyType.Planet))
-        //    Debug.Log(rb.position);
+        rb.MovePosition(rb.position + (Time.fixedDeltaTime * timeStep * velocityVector));
     }
-
     public void UpdateRotation(float timeStep)
     {
-        transform.Rotate(Time.fixedDeltaTime * timeStep * initialRotation);
-        if (bodyType.HasFlag(BodyType.Moon))
-        {
-            Debug.Log(initialRotation);
-            Debug.Log(transform.rotation);
-        }
+        Vector3 rotationDelta = Time.fixedDeltaTime * timeStep * initialRotationVector;
+        rb.MoveRotation(rb.rotation * Quaternion.Euler(rotationDelta));
     }
-
     void OnValidate()
     {
         RecalculateMass();
-
         if (GetComponentInChildren<CelestialBodyGenerator>())
             GetComponentInChildren<CelestialBodyGenerator>().transform.localScale = Vector3.one * radius;
-
         gameObject.name = bodyName;
     }
-
     public void RecalculateMass()
     {
         mass = surfaceGravity * radius * radius / StaticVariables.gravitationalConstant;
         Rigidbody.mass = mass;
     }
-
     public Rigidbody Rigidbody
     {
         get
@@ -71,7 +54,6 @@ public class CelestialBody : MonoBehaviour
             return rb;
         }
     }
-
     public Vector3 Position
     {
         get
@@ -79,5 +61,4 @@ public class CelestialBody : MonoBehaviour
             return rb.position;
         }
     }
-
 }
