@@ -91,21 +91,12 @@ public class FloatingOriginController : MonoBehaviour
             Vector3D currentOrigin = CelestialBody.GetWorldOrigin();
             Vector3D newOrigin = currentOrigin + new Vector3D(offset);
             CelestialBody.SetWorldOrigin(newOrigin);
-
-            if (shiftTrailRenderers && celestialBodies != null)
-            {
-                foreach (var body in celestialBodies)
-                    body?.ShiftTrail(offset);
-            }
         }
 
         ShiftRootTransforms(offset);
 
         if (shiftParticleSystems)
             ShiftParticleSystems(offset);
-
-        if (shiftTrailRenderers)
-            ShiftTrailRenderers(offset);
 
         if (shiftLineRenderers)
             ShiftLineRenderers(offset);
@@ -150,31 +141,6 @@ public class FloatingOriginController : MonoBehaviour
                 particles[i].position -= offset;
 
             ps.SetParticles(particles, particleCount);
-        }
-    }
-
-    /// <summary>
-    /// Shift all trail renderers (except those on celestial bodies, handled separately).
-    /// </summary>
-    private void ShiftTrailRenderers(Vector3 offset)
-    {
-        TrailRenderer[] trails = FindObjectsByType<TrailRenderer>(FindObjectsSortMode.None);
-
-        foreach (TrailRenderer trail in trails)
-        {
-            if (trail.GetComponent<CelestialBody>() != null)
-                continue;
-
-            if (trail.positionCount == 0)
-                continue;
-
-            Vector3[] positions = new Vector3[trail.positionCount];
-            trail.GetPositions(positions);
-
-            for (int i = 0; i < positions.Length; i++)
-                positions[i] -= offset;
-
-            trail.SetPositions(positions);
         }
     }
 

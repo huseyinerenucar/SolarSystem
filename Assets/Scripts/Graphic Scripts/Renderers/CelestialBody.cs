@@ -28,7 +28,6 @@ public class CelestialBody : MonoBehaviour
 
     private Rigidbody rb;
     private Transform cachedTransform;
-    private TrailRenderer trailRenderer;
 
     private static Vector3D s_worldOrigin = Vector3D.zero;
 
@@ -36,7 +35,6 @@ public class CelestialBody : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         cachedTransform = transform;
-        trailRenderer = GetComponent<TrailRenderer>();
 
         rb.isKinematic = true;
         rb.useGravity = false;
@@ -52,9 +50,6 @@ public class CelestialBody : MonoBehaviour
     {
         RecalculateMass();
         gameObject.name = bodyName;
-
-        if (Application.isPlaying)
-            UpdateVisualScale();
     }
 
     /// <summary>
@@ -117,39 +112,6 @@ public class CelestialBody : MonoBehaviour
         _mass = bodyMass;
 
         UpdateRenderPosition();
-        UpdateVisualScale();
-    }
-
-    /// <summary>
-    /// Update visual scale based on mass/radius.
-    /// </summary>
-    private void UpdateVisualScale()
-    {
-        cachedTransform.localScale = 2f * radius * Vector3.one; 
-
-        if (trailRenderer != null)
-        {
-            trailRenderer.startWidth = radius * 0.5f;
-            trailRenderer.endWidth = radius * 0.2f;
-        }
-    }
-
-    /// <summary>
-    /// Shift this body's trail renderer when origin changes.
-    /// Called by FloatingOriginController.
-    /// </summary>
-    public void ShiftTrail(Vector3 offset)
-    {
-        if (trailRenderer == null || trailRenderer.positionCount == 0)
-            return;
-
-        Vector3[] positions = new Vector3[trailRenderer.positionCount];
-        trailRenderer.GetPositions(positions);
-
-        for (int i = 0; i < positions.Length; i++)
-            positions[i] -= offset;
-
-        trailRenderer.SetPositions(positions);
     }
 
     /// <summary>

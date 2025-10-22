@@ -15,14 +15,7 @@ public class OrbitDebugDisplay : MonoBehaviour
 
     void Start()
     {
-        //if (Application.isPlaying) 
-        //    HideOrbits();
-    }
-
-    void Update()
-    {
-        if (!Application.isPlaying)
-            DrawOrbits();
+        DrawOrbits();
     }
 
     void DrawOrbits()
@@ -70,22 +63,20 @@ public class OrbitDebugDisplay : MonoBehaviour
 
         for (int bodyIndex = 0; bodyIndex < virtualBodies.Length; bodyIndex++)
         {
-            var pathColour = bodies[bodyIndex].gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial.color;
-
             if (useThickLines)
             {
                 var lineRenderer = bodies[bodyIndex].gameObject.GetComponentInChildren<LineRenderer>();
                 lineRenderer.enabled = true;
                 lineRenderer.positionCount = drawPoints[bodyIndex].Length;
                 lineRenderer.SetPositions(drawPoints[bodyIndex]);
-                lineRenderer.startColor = pathColour;
-                lineRenderer.endColor = pathColour;
+                lineRenderer.startColor = new Color(1f, 1f, 1f);
+                lineRenderer.endColor = new Color(1f, 1f, 1f);
                 lineRenderer.widthMultiplier = width;
             }
             else
             {
                 for (int i = 0; i < drawPoints[bodyIndex].Length - 1; i++)
-                    Debug.DrawLine(drawPoints[bodyIndex][i], drawPoints[bodyIndex][i + 1], pathColour);
+                    Debug.DrawLine(drawPoints[bodyIndex][i], drawPoints[bodyIndex][i + 1], new Color(1f, 1f, 1f));
 
                 var lineRenderer = bodies[bodyIndex].gameObject.GetComponentInChildren<LineRenderer>();
 
