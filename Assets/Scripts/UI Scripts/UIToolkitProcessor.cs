@@ -50,6 +50,8 @@ public class UIToolkitProcessor : MonoBehaviour
 
     void Start()
     {
+        scriptableVariables.customTimeSpeed = 10;
+
         var root = uiDocument.rootVisualElement;
 
         buttonDisplayBinding.sourceToUiConverters.AddConverter<bool, StyleEnum<DisplayStyle>>(UIConverters.BoolToDisplayStyleEnum);
@@ -60,7 +62,6 @@ public class UIToolkitProcessor : MonoBehaviour
         Button DecreaseCustomTimeSpeedButton = root.Q<Button>("DecreaseCustomTimeSpeed_Button");
         Button TimeSpeedButtonCustom = root.Q<Button>("CustomTimeSpeed_Button");
         Button IncreaseCustomTimeSpeedButton = root.Q<Button>("IncreaseCustomTimeSpeed_Button");
-        VisualElement UIModePanel = root.Q<VisualElement>("UIMode_Panel");
 
         //SetButtonForegroundColor(UIModePanel, new(0.6f, 0.6f, 1f, 0.5f));
 

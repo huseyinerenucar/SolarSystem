@@ -16,13 +16,9 @@ public class CelestialBody : MonoBehaviour
     [SerializeField] private float surfaceGravity = 9.8f;
 
     [Header("Initial Conditions")]
-    public Vector3 initialVelocityVector = Vector3.zero;
-    public Vector3 initialRotationVector = new(0, 10, 0);
+    public Vector3D initialVelocityVector = Vector3D.zero;
+    public Vector3D initialRotationVector = new(0, 10, 0);
 
-    [Header("Visual Settings")]
-    [SerializeField] private bool showOrbitPath = false;
-    [SerializeField] private Color orbitColor = Color.white;
-    
     [System.NonSerialized] public Vector3D worldPosition;
     [System.NonSerialized] public Vector3D worldVelocity;
     [System.NonSerialized] public Vector3D worldAcceleration;
@@ -179,13 +175,4 @@ public class CelestialBody : MonoBehaviour
     public Vector3 velocityVector => worldVelocity.ToVector3();
     public Vector3 accelerationVector => worldAcceleration.ToVector3();
     public Rigidbody Rigidbody => rb;
-
-    void OnDrawGizmos()
-    {
-        if (showOrbitPath && Application.isPlaying)
-        {
-            Gizmos.color = orbitColor;
-            Gizmos.DrawWireSphere(transform.position, 0.5f * radius);
-        }
-    }
 }
